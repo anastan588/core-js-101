@@ -18,8 +18,8 @@
  *   'aa',''    => 'aa'
  *   '',  'bb'  => 'bb'
  */
-function concatenateStrings(/* value1, value2 */) {
-  throw new Error('Not implemented');
+function concatenateStrings(value1, value2) {
+  return value1 + value2;
 }
 
 
@@ -34,8 +34,8 @@ function concatenateStrings(/* value1, value2 */) {
  *   'b'     => 1
  *   ''      => 0
  */
-function getStringLength(/* value */) {
-  throw new Error('Not implemented');
+function getStringLength(value) {
+  return value.length;
 }
 
 /**
@@ -51,8 +51,8 @@ function getStringLength(/* value */) {
  *   'John','Doe'      => 'Hello, John Doe!'
  *   'Chuck','Norris'  => 'Hello, Chuck Norris!'
  */
-function getStringFromTemplate(/* firstName, lastName */) {
-  throw new Error('Not implemented');
+function getStringFromTemplate(firstName, lastName) {
+  return `Hello, ${firstName} ${lastName}!`;
 }
 
 /**
@@ -65,8 +65,8 @@ function getStringFromTemplate(/* firstName, lastName */) {
  *   'Hello, John Doe!' => 'John Doe'
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
-function extractNameFromTemplate(/* value */) {
-  throw new Error('Not implemented');
+function extractNameFromTemplate(value) {
+  return value.slice(7, value.length - 1);
 }
 
 
@@ -80,8 +80,8 @@ function extractNameFromTemplate(/* value */) {
  *   'John Doe'  => 'J'
  *   'cat'       => 'c'
  */
-function getFirstChar(/* value */) {
-  throw new Error('Not implemented');
+function getFirstChar(value) {
+  return value.slice(0, 1);
 }
 
 /**
@@ -95,8 +95,21 @@ function getFirstChar(/* value */) {
  *   'cat'              => 'cat'
  *   '\tHello, World! ' => 'Hello, World!'
  */
-function removeLeadingAndTrailingWhitespaces(/* value */) {
-  throw new Error('Not implemented');
+function removeLeadingAndTrailingWhitespaces(value) {
+  const valueArray = value.split('');
+  // console.log(valueArray);
+  for (let i = 0; i < valueArray.length; i += 1) {
+    if (valueArray[i] === '\t') {
+      valueArray.splice(i, 1);
+    } else if (
+      valueArray[i] === ' ' && (i === 0 || i === valueArray.length - 1)
+    ) {
+      valueArray.splice(i, 1);
+      i -= 1;
+    }
+  }
+  // console.log(valueArray);
+  return valueArray.join('');
 }
 
 /**
@@ -110,8 +123,12 @@ function removeLeadingAndTrailingWhitespaces(/* value */) {
  *   'A', 5  => 'AAAAA'
  *   'cat', 3 => 'catcatcat'
  */
-function repeatString(/* value, count */) {
-  throw new Error('Not implemented');
+function repeatString(value, count) {
+  let result = '';
+  for (let i = 0; i < count; i += 1) {
+    result += value;
+  }
+  return result;
 }
 
 /**
@@ -126,8 +143,11 @@ function repeatString(/* value, count */) {
  *   'I like legends', 'end' => 'I like legs',
  *   'ABABAB','BA' => 'ABAB'
  */
-function removeFirstOccurrences(/* str, value */) {
-  throw new Error('Not implemented');
+function removeFirstOccurrences(str, value) {
+  const i = str.indexOf(value);
+  const strArray = str.split('');
+  strArray.splice(i, value.length);
+  return strArray.join('');
 }
 
 /**
@@ -141,8 +161,11 @@ function removeFirstOccurrences(/* str, value */) {
  *   '<span>' => 'span'
  *   '<a>' => 'a'
  */
-function unbracketTag(/* str */) {
-  throw new Error('Not implemented');
+function unbracketTag(str) {
+  const strArray = str.split('');
+  strArray.splice(0, 1);
+  strArray.splice(strArray.length - 1, 1);
+  return strArray.join('');
 }
 
 
@@ -156,9 +179,10 @@ function unbracketTag(/* str */) {
  *   'Thunderstruck' => 'THUNDERSTRUCK'
  *  'abcdefghijklmnopqrstuvwxyz' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
  */
-function convertToUpperCase(/* str */) {
-  throw new Error('Not implemented');
+function convertToUpperCase(str) {
+  return str.toLocaleUpperCase();
 }
+
 
 /**
  * Extracts e-mails from single string with e-mails list delimeted by semicolons
@@ -175,8 +199,8 @@ function convertToUpperCase(/* str */) {
  *   ],
  *   'info@gmail.com' => ['info@gmail.com']
  */
-function extractEmails(/* str */) {
-  throw new Error('Not implemented');
+function extractEmails(str) {
+  return str.split(';');
 }
 
 /**
@@ -202,10 +226,36 @@ function extractEmails(/* str */) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  const horizontalLine = '─';
+  const verticalLineTopStart = '┌';
+  const verticalLineTopEnd = '┐';
+  const verticalLine = '│';
+  const verticalLineBottomStart = '└';
+  const verticalLineBottomEnd = '┘';
+  const space = ' ';
+  const newLine = '\n';
+  // const plus = '+';
+  let horizontalSide = '';
+  let horizontalInner = '';
+  for (let i = 0; i < width - 2; i += 1) {
+    horizontalSide += horizontalLine;
+    horizontalInner += space;
+  }
+  const wholehorizontalTopSide = verticalLineTopStart + horizontalSide
+  + verticalLineTopEnd + newLine;
+  const wholehorizontalBottomSide = verticalLineBottomStart
+  + horizontalSide + verticalLineBottomEnd + newLine;
+  const middleLine = verticalLine + horizontalInner + verticalLine
+  + newLine;
+  let middleBlock = '';
+  for (let i = 0; i < height - 2; i += 1) {
+    middleBlock += middleLine;
+  }
+  const result = wholehorizontalTopSide + middleBlock + wholehorizontalBottomSide;
+  // console.log(result);
+  return result;
 }
-
 
 /**
  * Encode specified string with ROT13 cipher
@@ -223,8 +273,30 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const firstPartOfLetters = 'ABCDEFGHIJKLMabcdefghijklm';
+  const secondPartOfLetters = 'NOPQRSTUVWXYZnopqrstuvwxyz';
+  const firstArray = firstPartOfLetters.split('');
+  const secondArray = secondPartOfLetters.split('');
+  const resultArray = [];
+  const strArray = str.split('');
+  for (let i = 0; i < strArray.length; i += 1) {
+    for (let j = 0; j < firstArray.length; j += 1) {
+      if (strArray[i] === firstArray[j]) {
+        resultArray.push(secondArray[j]);
+      }
+    }
+    for (let k = 0; k < firstArray.length; k += 1) {
+      if (strArray[i] === secondArray[k]) {
+        resultArray.push(firstArray[k]);
+      }
+    }
+    if (strArray[i] === '?' || strArray[i] === '!' || strArray[i] === ' ') {
+      resultArray.push(strArray[i]);
+    }
+  }
+  // console.log(resultArray);
+  return resultArray.join('');
 }
 
 /**
@@ -240,10 +312,27 @@ function encodeToRot13(/* str */) {
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
-function isString(/* value */) {
-  throw new Error('Not implemented');
+function isString(value) {
+  let string = '';
+  // console.log(value);
+  if (value !== null && !(value instanceof Array)) {
+    // console.log(value);
+    if (typeof value === 'object') {
+      string = value.toString();
+    } else {
+      string = value;
+    }
+  } else {
+    string = value;
+  }
+  let result = '';
+  if (typeof string === 'string') {
+    result = true;
+  } else {
+    result = false;
+  }
+  return result;
 }
-
 
 /**
  * Returns playid card id.
@@ -269,8 +358,21 @@ function isString(/* value */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const deck = ['A♣', '2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣', 'Q♣', 'K♣',
+    'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦',
+    'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥',
+    'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠'];
+  let result = '';
+  for (let i = 0; i < deck.length; i += 1) {
+    if (deck[i] === value) {
+      result = i;
+    }
+  }
+  if (result === '') {
+    return `Invalid id for card '${value}':`;
+  }
+  return result;
 }
 
 
